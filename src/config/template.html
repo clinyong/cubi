@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <% styles.forEach(function(href){ %>
+    <link href=/<%=h ref %> rel=stylesheet>
+    <% }) %>
+</head>
+
+<body>
+    <div id="app"><%- initContent %></div>
+    <% scripts.forEach(function(src) { %>
+    <script type=text/javascript src=/<%=s rc %>></script>
+    <% }) %>
+</body>
+
+</html>

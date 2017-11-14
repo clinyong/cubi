@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "lib": [
+			"es6",
+			"es2016.array.include"
+        ],
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "declaration": true,
+        "outDir": "dist",
+        "noEmitOnError": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+		"strictNullChecks": true
+    },
+    "include": [
+        "src/**/*",
+		"lib.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
