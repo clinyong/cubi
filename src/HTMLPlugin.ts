@@ -99,7 +99,7 @@ export class HTMLPlugin {
 				.map(asset => asset.name);
 
 			const templateContent = await fse.readFile(
-				path.resolve(__dirname, "./config/template.html")
+				path.resolve(__dirname, "../config/template.html")
 			);
 
 			const scripts = entryAssets.map(item => {
