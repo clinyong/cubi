@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <title><%=title%></title>
     <% styles.forEach(function(href){ %>
-    <link href=/<%=h ref %> rel=stylesheet>
+    <link href=/<%=href %> rel=stylesheet>
     <% }) %>
 </head>
 
 <body>
     <div id="app"><%- initContent %></div>
     <% scripts.forEach(function(src) { %>
-    <script type=text/javascript src=/<%=s rc %>></script>
+    <script type=text/javascript src=/<%=src %>></script>
     <% }) %>
 </body>
 
