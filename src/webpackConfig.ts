@@ -5,6 +5,8 @@ import * as path from "path";
 import { HTMLPlugin } from "./HTMLPlugin";
 import { localIP } from "./utils";
 
+const MODULE_PATH = path.resolve(__dirname, "../node_modules");
+
 export interface Config {
 	entry: { [name: string]: string };
 	dllEntry: { [name: string]: string };
@@ -23,6 +25,9 @@ export function genConfig(config: Config, isProd: boolean) {
 		},
 		resolve: {
 			extensions: [".tsx", ".ts"]
+		},
+		resolveLoader: {
+			modules: ["node_modules", MODULE_PATH]
 		},
 		module: {
 			rules: [
