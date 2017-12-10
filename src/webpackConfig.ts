@@ -18,6 +18,11 @@ export function genConfig(config: Config, isProd: boolean) {
 	const entryList: string[] = Object.keys(config.entry).map(
 		k => config.entry[k]
 	);
+	const babelPresets = [
+		"@babel/preset-env",
+		"@babel/preset-react",
+		"@babel/preset-typescript"
+	].map(item => path.join(MODULE_PATH, item));
 	const webpackConfig: webpack.Configuration = {
 		entry: config.entry,
 		output: {
@@ -38,7 +43,7 @@ export function genConfig(config: Config, isProd: boolean) {
 						{
 							loader: "babel-loader",
 							options: {
-								presets: ["react", "@babel/preset-env"]
+								presets: babelPresets
 							}
 						}
 					]
@@ -53,7 +58,7 @@ export function genConfig(config: Config, isProd: boolean) {
 								plugins: [
 									path.resolve(__dirname, "./ReactHydrate")
 								],
-								presets: ["react", "@babel/preset-env"]
+								presets: babelPresets
 							}
 						}
 					]

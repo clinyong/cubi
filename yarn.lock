@@ -52,6 +52,13 @@
     "@babel/helper-explode-assignable-expression" "7.0.0-beta.31"
     "@babel/types" "7.0.0-beta.31"
 
+"@babel/helper-builder-react-jsx@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/helper-builder-react-jsx/-/helper-builder-react-jsx-7.0.0-beta.34.tgz#a2fbc88640795d44001876e12e363ebfe6e1df3e"
+  dependencies:
+    "@babel/types" "7.0.0-beta.34"
+    esutils "^2.0.0"
+
 "@babel/helper-call-delegate@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/helper-call-delegate/download/@babel/helper-call-delegate-7.0.0-beta.31.tgz#6fef81a3519de72bb04e041c403d11ef7fcd3702"
@@ -202,6 +209,10 @@
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-async-generators/download/@babel/plugin-syntax-async-generators-7.0.0-beta.31.tgz#f7347f918941c2106b246adfa87bdc439d797e01"
 
+"@babel/plugin-syntax-jsx@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.0.0-beta.34.tgz#15763aaa2ef2df00fb9ff6edb7b4295622e52514"
+
 "@babel/plugin-syntax-object-rest-spread@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-object-rest-spread/download/@babel/plugin-syntax-object-rest-spread-7.0.0-beta.31.tgz#bd0f67210b3022182dc50d155393ccec720ca039"
@@ -209,6 +220,10 @@
 "@babel/plugin-syntax-optional-catch-binding@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-optional-catch-binding/download/@babel/plugin-syntax-optional-catch-binding-7.0.0-beta.31.tgz#9a999ecc49c6c55bd040622bcf6661824bdaa088"
+
+"@babel/plugin-syntax-typescript@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.0.0-beta.34.tgz#a290cb23a8087cc2c8a124bdf01e8d36ad863000"
 
 "@babel/plugin-transform-arrow-functions@7.0.0-beta.31":
   version "7.0.0-beta.31"
@@ -331,6 +346,29 @@
     "@babel/traverse" "7.0.0-beta.31"
     "@babel/types" "7.0.0-beta.31"
 
+"@babel/plugin-transform-react-display-name@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.0.0-beta.34.tgz#9cc093b34655aeefc4ce4e5925a30cd489798872"
+
+"@babel/plugin-transform-react-jsx-self@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.0.0-beta.34.tgz#7088b22f6e59b6f9ca4f03bd439eb22b7b612b22"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "7.0.0-beta.34"
+
+"@babel/plugin-transform-react-jsx-source@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.0.0-beta.34.tgz#53081f5e4ec9fa76ce3f882297b6af895b7893b3"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "7.0.0-beta.34"
+
+"@babel/plugin-transform-react-jsx@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.0.0-beta.34.tgz#e34e47c71c7efa6a9362176fdf5d3ae16368a117"
+  dependencies:
+    "@babel/helper-builder-react-jsx" "7.0.0-beta.34"
+    "@babel/plugin-syntax-jsx" "7.0.0-beta.34"
+
 "@babel/plugin-transform-regenerator@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/plugin-transform-regenerator/download/@babel/plugin-transform-regenerator-7.0.0-beta.31.tgz#8c8519d8d1b550d1edc8f8ee99dc0478c3c0d128"
@@ -363,6 +401,12 @@
 "@babel/plugin-transform-typeof-symbol@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/plugin-transform-typeof-symbol/download/@babel/plugin-transform-typeof-symbol-7.0.0-beta.31.tgz#faad6b603dbdad43c7874ca61dffe4df8793139a"
+
+"@babel/plugin-transform-typescript@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.0.0-beta.34.tgz#5589d964cd1f343047339a8a2ccd4f5acc61b5de"
+  dependencies:
+    "@babel/plugin-syntax-typescript" "7.0.0-beta.34"
 
 "@babel/plugin-transform-unicode-regex@7.0.0-beta.31":
   version "7.0.0-beta.31"
@@ -413,6 +457,22 @@
     invariant "^2.2.2"
     semver "^5.3.0"
 
+"@babel/preset-react@^7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.0.0-beta.34.tgz#548d8bca75c70c24a2ec0ebc2bd59d9f18ddfd7c"
+  dependencies:
+    "@babel/plugin-syntax-jsx" "7.0.0-beta.34"
+    "@babel/plugin-transform-react-display-name" "7.0.0-beta.34"
+    "@babel/plugin-transform-react-jsx" "7.0.0-beta.34"
+    "@babel/plugin-transform-react-jsx-self" "7.0.0-beta.34"
+    "@babel/plugin-transform-react-jsx-source" "7.0.0-beta.34"
+
+"@babel/preset-typescript@^7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.0.0-beta.34.tgz#3df34f1de48291a63d5fde96d47ea11af018f560"
+  dependencies:
+    "@babel/plugin-transform-typescript" "7.0.0-beta.34"
+
 "@babel/template@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/template/download/@babel/template-7.0.0-beta.31.tgz#577bb29389f6c497c3e7d014617e7d6713f68bda"
@@ -438,6 +498,14 @@
 "@babel/types@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "http://registry.npm.taobao.org/@babel/types/download/@babel/types-7.0.0-beta.31.tgz#42c9c86784f674c173fb21882ca9643334029de4"
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.2.0"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.34.tgz#ce8da730b834c782ec64a2baf3ac0200dd328816"
   dependencies:
     esutils "^2.0.2"
     lodash "^4.2.0"
@@ -613,14 +681,6 @@ aws4@^1.2.1:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/aws4/download/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-babel-helper-builder-react-jsx@^6.24.1:
-  version "6.26.0"
-  resolved "http://registry.npm.taobao.org/babel-helper-builder-react-jsx/download/babel-helper-builder-react-jsx-6.26.0.tgz#39ff8313b75c8b65dceff1f31d383e0ff2a408a0"
-  dependencies:
-    babel-runtime "^6.26.0"
-    babel-types "^6.26.0"
-    esutils "^2.0.2"
-
 babel-loader@8.0.0-beta.0:
   version "8.0.0-beta.0"
   resolved "http://registry.npm.taobao.org/babel-loader/download/babel-loader-8.0.0-beta.0.tgz#b85c3b52d1095949125c72c7ec1fa0fbb47a11ff"
@@ -629,74 +689,14 @@ babel-loader@8.0.0-beta.0:
     loader-utils "^1.0.2"
     mkdirp "^0.5.1"
 
-babel-plugin-syntax-flow@^6.18.0:
-  version "6.18.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-syntax-flow/download/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
-
-babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
-  version "6.18.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-syntax-jsx/download/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
-
-babel-plugin-transform-flow-strip-types@^6.22.0:
-  version "6.22.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-transform-flow-strip-types/download/babel-plugin-transform-flow-strip-types-6.22.0.tgz#84cb672935d43714fdc32bce84568d87441cf7cf"
-  dependencies:
-    babel-plugin-syntax-flow "^6.18.0"
-    babel-runtime "^6.22.0"
-
-babel-plugin-transform-react-display-name@^6.23.0:
-  version "6.25.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-transform-react-display-name/download/babel-plugin-transform-react-display-name-6.25.0.tgz#67e2bf1f1e9c93ab08db96792e05392bf2cc28d1"
-  dependencies:
-    babel-runtime "^6.22.0"
-
-babel-plugin-transform-react-jsx-self@^6.22.0:
-  version "6.22.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-transform-react-jsx-self/download/babel-plugin-transform-react-jsx-self-6.22.0.tgz#df6d80a9da2612a121e6ddd7558bcbecf06e636e"
-  dependencies:
-    babel-plugin-syntax-jsx "^6.8.0"
-    babel-runtime "^6.22.0"
-
-babel-plugin-transform-react-jsx-source@^6.22.0:
-  version "6.22.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-transform-react-jsx-source/download/babel-plugin-transform-react-jsx-source-6.22.0.tgz#66ac12153f5cd2d17b3c19268f4bf0197f44ecd6"
-  dependencies:
-    babel-plugin-syntax-jsx "^6.8.0"
-    babel-runtime "^6.22.0"
-
-babel-plugin-transform-react-jsx@^6.24.1:
-  version "6.24.1"
-  resolved "http://registry.npm.taobao.org/babel-plugin-transform-react-jsx/download/babel-plugin-transform-react-jsx-6.24.1.tgz#840a028e7df460dfc3a2d29f0c0d91f6376e66a3"
-  dependencies:
-    babel-helper-builder-react-jsx "^6.24.1"
-    babel-plugin-syntax-jsx "^6.8.0"
-    babel-runtime "^6.22.0"
-
-babel-preset-flow@^6.23.0:
-  version "6.23.0"
-  resolved "http://registry.npm.taobao.org/babel-preset-flow/download/babel-preset-flow-6.23.0.tgz#e71218887085ae9a24b5be4169affb599816c49d"
-  dependencies:
-    babel-plugin-transform-flow-strip-types "^6.22.0"
-
-babel-preset-react@^6.24.1:
-  version "6.24.1"
-  resolved "http://registry.npm.taobao.org/babel-preset-react/download/babel-preset-react-6.24.1.tgz#ba69dfaea45fc3ec639b6a4ecea6e17702c91380"
-  dependencies:
-    babel-plugin-syntax-jsx "^6.3.13"
-    babel-plugin-transform-react-display-name "^6.23.0"
-    babel-plugin-transform-react-jsx "^6.24.1"
-    babel-plugin-transform-react-jsx-self "^6.22.0"
-    babel-plugin-transform-react-jsx-source "^6.22.0"
-    babel-preset-flow "^6.23.0"
-
-babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "http://registry.npm.taobao.org/babel-runtime/download/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
 
-babel-types@^6.19.0, babel-types@^6.26.0:
+babel-types@^6.19.0:
   version "6.26.0"
   resolved "http://registry.npm.taobao.org/babel-types/download/babel-types-6.26.0.tgz#a3b073f94ab49eb6fa55cd65227a334380632497"
   dependencies:
@@ -1266,7 +1266,7 @@ estraverse@^4.1.0, estraverse@^4.1.1:
   version "4.2.0"
   resolved "http://registry.npm.taobao.org/estraverse/download/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
 
-esutils@^2.0.2:
+esutils@^2.0.0, esutils@^2.0.2:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/esutils/download/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 

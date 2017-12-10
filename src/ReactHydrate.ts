@@ -32,7 +32,7 @@ export = function ReactHydrate() {
 							componentName = path.node.id.name;
 						},
 						ClassDeclaration(path) {
-							componentName = path.id.name;
+							componentName = path.node.id.name;
 						},
 						Identifier(path) {
 							componentName = path.node.name;
