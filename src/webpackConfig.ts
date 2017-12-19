@@ -2,16 +2,52 @@ import * as webpack from "webpack";
 import * as FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import * as merge from "webpack-merge";
 import * as path from "path";
+import DllLinkPlugin = require("dll-link-webpack-plugin");
 import { HTMLPlugin } from "./HTMLPlugin";
 import { localIP } from "./utils";
 
 const MODULE_PATH = path.resolve(__dirname, "../node_modules");
 
 export interface Config {
+	rootPath: string;
 	entry: { [name: string]: string };
 	dllEntry: { [name: string]: string };
-	dist: string;
+	outputPath: string;
 	devPort: number;
+}
+
+function genDllConfig(options: Config, isProd: boolean): any {
+	const env = isProd ? "production" : "development";
+	const filename = isProd
+		? "js/[name].[chunkhash:8].dll.js"
+		: "[name].dll.js";
+
+	const library = "[name]_lib";
+	return {
+		entry: options.dllEntry,
+		output: {
+			filename,
+			path: options.outputPath,
+			library
+		},
+		plugins: [
+			new webpack.DllPlugin({
+				path: "[name]-manifest.json",
+				name: library,
+				context: options.outputPath
+			}),
+			new webpack.DefinePlugin({
+				"process.env.NODE_ENV": JSON.stringify(env)
+			})
+		].concat(
+			isProd
+				? [
+						new webpack.HashedModuleIdsPlugin(),
+						new webpack.optimize.ModuleConcatenationPlugin()
+					]
+				: []
+		)
+	};
 }
 
 export function genConfig(config: Config, isProd: boolean) {
@@ -26,10 +62,11 @@ export function genConfig(config: Config, isProd: boolean) {
 	const webpackConfig: webpack.Configuration = {
 		entry: config.entry,
 		output: {
-			path: config.dist
+			path: config.outputPath
 		},
 		resolve: {
-			extensions: [".tsx", ".ts"]
+			extensions: [".webpack.js", ".js", ".jsx", ".tsx", ".ts"],
+			modules: [config.rootPath, "node_modules", MODULE_PATH]
 		},
 		resolveLoader: {
 			modules: ["node_modules", MODULE_PATH]
@@ -73,6 +110,17 @@ export function genConfig(config: Config, isProd: boolean) {
 			})
 		]
 	};
+
+	if (config.dllEntry) {
+		webpackConfig.plugins!.push(
+			new DllLinkPlugin({
+				config: genDllConfig(config, false),
+				appendVersion: isProd,
+				assetsMode: true,
+				htmlMode: true
+			})
+		);
+	}
 	return webpackConfig;
 }
 

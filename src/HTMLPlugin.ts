@@ -55,7 +55,7 @@ export class HTMLPlugin {
 
 	apply(compiler) {
 		compiler.plugin("emit", async (compilation, cb) => {
-			const { entry, dllEntry } = this.options;
+			const { entry } = this.options;
 			const { assets, chunks } = compilation.getStats().toJson();
 
 			const allAssets = chunks
@@ -86,11 +86,11 @@ export class HTMLPlugin {
 			}
 
 			// get dll entry
-			const end = Object.keys(dllEntry).length;
 			const dllAssets = assets
-				.reverse()
-				.slice(0, end)
+				.filter(item => item.name.includes(".dll.js"))
 				.map(asset => asset.name);
+
+			console.log(assets);
 
 			const shareScripts = shareAssets.concat(dllAssets);
 
