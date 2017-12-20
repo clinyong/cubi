@@ -55,7 +55,7 @@ export class HTMLPlugin {
 
 	apply(compiler) {
 		compiler.plugin("emit", async (compilation, cb) => {
-			const { entry, dllEntry } = this.options;
+			const { entry } = this.options;
 			const { assets, chunks } = compilation.getStats().toJson();
 
 			const allAssets = chunks
@@ -86,10 +86,8 @@ export class HTMLPlugin {
 			}
 
 			// get dll entry
-			const end = Object.keys(dllEntry).length;
 			const dllAssets = assets
-				.reverse()
-				.slice(0, end)
+				.filter(item => item.name.includes(".dll.js"))
 				.map(asset => asset.name);
 
 			const shareScripts = shareAssets.concat(dllAssets);
@@ -99,7 +97,8 @@ export class HTMLPlugin {
 				.map(asset => asset.name);
 
 			const templateContent = await fse.readFile(
-				path.resolve(__dirname, "./config/template.html")
+				path.resolve(__dirname, "../config/template.html"),
+				"utf8"
 			);
 
 			const scripts = entryAssets.map(item => {
@@ -107,7 +106,8 @@ export class HTMLPlugin {
 					title: this.options.title,
 					styles: shareStyles,
 					scripts: shareScripts.concat(item.content),
-					manifestContent
+					manifestContent,
+					initContent: ""
 				});
 
 				return {
