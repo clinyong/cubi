@@ -90,8 +90,6 @@ export class HTMLPlugin {
 				.filter(item => item.name.includes(".dll.js"))
 				.map(asset => asset.name);
 
-			console.log(assets);
-
 			const shareScripts = shareAssets.concat(dllAssets);
 
 			const shareStyles = assets

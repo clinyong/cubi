@@ -33,9 +33,6 @@ export = function ReactHydrate() {
 						},
 						ClassDeclaration(path) {
 							componentName = path.node.id.name;
-						},
-						Identifier(path) {
-							componentName = path.node.name;
 						}
 					});
 				}
