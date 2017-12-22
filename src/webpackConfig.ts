@@ -42,6 +42,11 @@ function genDllConfig(options: Config, isProd: boolean): any {
 		].concat(
 			isProd
 				? [
+						new webpack.optimize.UglifyJsPlugin({
+							compress: {
+								warnings: false
+							}
+						}),
 						new webpack.HashedModuleIdsPlugin(),
 						new webpack.optimize.ModuleConcatenationPlugin()
 					]
@@ -101,26 +106,28 @@ export function genConfig(config: Config, isProd: boolean) {
 					]
 				}
 			]
-		},
-		plugins: [
-			new HTMLPlugin({
-				entry: config.entry,
-				dllEntry: config.dllEntry,
-				isProd
-			})
-		]
+		}
 	};
 
+	const plugins: any[] = [];
 	if (config.dllEntry) {
-		webpackConfig.plugins!.push(
+		plugins.push(
 			new DllLinkPlugin({
-				config: genDllConfig(config, false),
+				config: genDllConfig(config, isProd),
 				appendVersion: isProd,
-				assetsMode: true,
-				htmlMode: true
+				assetsMode: true
 			})
 		);
 	}
+	plugins.push(
+		new HTMLPlugin({
+			entry: config.entry,
+			dllEntry: config.dllEntry,
+			isProd
+		})
+	);
+	webpackConfig.plugins = plugins;
+	
 	return webpackConfig;
 }
 

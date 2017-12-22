@@ -4,6 +4,10 @@ import * as ora from "ora";
 import chalk from "chalk";
 import { alertSuccess } from "./utils";
 
+export function validateConfig(config: Config) {
+	return config;
+}
+
 export class Cubi {
 	options: Config;
 	constructor(options) {

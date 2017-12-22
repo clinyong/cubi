@@ -5,7 +5,8 @@
 	"bin": {
 		"ezpack": "./bin/ezpack.js"
 	},
-	"main": "index.js",
+	"main": "./dist/Cubi.js",
+	"typings": "./dist/Cubi.d.ts",
 	"scripts": {
 		"start": "tsc -w",
 		"build": "tsc"
