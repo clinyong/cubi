@@ -1,8 +1,9 @@
-import { genProdConfig, Config } from "./webpackConfig";
+import { genProdConfig, Config, genDevConfig } from "./webpackConfig";
 import * as webpack from "webpack";
 import * as ora from "ora";
 import chalk from "chalk";
 import { alertSuccess } from "./utils";
+import { startServer } from "./startServer";
 
 export function validateConfig(config: Config) {
 	return config;
@@ -14,7 +15,11 @@ export class Cubi {
 		this.options = options;
 	}
 
-	start() {}
+	start() {
+		const config = genDevConfig(this.options);
+		startServer(config, this.options.devServer);
+	}
+
 	build() {
 		const config = genProdConfig(this.options);
 		const spinner = ora("webpack building...");
