@@ -1,8 +1,23 @@
 import * as webpack from "webpack";
 import * as fse from "fs-extra";
 import * as path from "path";
+import * as React from "react";
+import * as ReactDOMServer from 'react-dom/server';
 import * as ejs from "ejs";
+import { DEFAULT_EXTENSIONS } from "@babel/core";
+import * as babelRegister from "@babel/register";
 import { minify } from "html-minifier";
+
+const MODULE_PATH = path.resolve(__dirname, "../node_modules");
+
+babelRegister({
+	presets: [
+		"@babel/preset-env",
+		"@babel/preset-react",
+		"@babel/preset-typescript"
+	].map(item => path.join(MODULE_PATH, item)),
+	extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
+});
 
 export interface HTMLExternalOptions {
 	/**
@@ -102,12 +117,19 @@ export class HTMLPlugin {
 			);
 
 			const scripts = entryAssets.map(item => {
+				let initContent = "";
+				let entryItem = entry[item.name] as string;
+				if (entry[item.name]) {
+					const Component = require(`${entryItem}/index.tsx`).default;
+					initContent = ReactDOMServer.renderToString(React.createElement(Component));
+				}
+
 				let htmlContent = ejs.render(templateContent, {
 					title: this.options.title,
 					styles: shareStyles,
 					scripts: shareScripts.concat(item.content),
 					manifestContent,
-					initContent: ""
+					initContent
 				});
 
 				return {
