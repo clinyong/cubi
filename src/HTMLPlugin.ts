@@ -2,11 +2,12 @@ import * as webpack from "webpack";
 import * as fse from "fs-extra";
 import * as path from "path";
 import * as React from "react";
-import * as ReactDOMServer from 'react-dom/server';
+import * as ReactDOMServer from "react-dom/server";
 import * as ejs from "ejs";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
 import * as babelRegister from "@babel/register";
 import { minify } from "html-minifier";
+import { Route } from "./config";
 
 const MODULE_PATH = path.resolve(__dirname, "../node_modules");
 
@@ -38,11 +39,7 @@ export interface HTMLOptions extends HTMLExternalOptions {
 	dllEntry: webpack.Entry;
 	entry: webpack.Entry;
 	isProd: boolean;
-}
-
-interface EntryAsset {
-	name: string;
-	content: string;
+	exportPathMap: () => Promise<{ [index: string]: Route }>;
 }
 
 function getAssetName(rawName: string): string {
@@ -70,21 +67,18 @@ export class HTMLPlugin {
 
 	apply(compiler) {
 		compiler.plugin("emit", async (compilation, cb) => {
-			const { entry } = this.options;
+			const { entry, exportPathMap } = this.options;
 			const { assets, chunks } = compilation.getStats().toJson();
 
 			const allAssets = chunks
 				.filter(chunk => chunk.initial)
 				.map(chunk => chunk.files[0]) as string[];
-			const entryAssets: EntryAsset[] = [];
+			const entryAssetMap = {};
 			let shareAssets: string[] = [];
 			allAssets.forEach(asset => {
 				const name = getAssetName(asset);
 				if (entry[name]) {
-					entryAssets.push({
-						name,
-						content: asset
-					});
+					entryAssetMap[name] = asset;
 				} else {
 					shareAssets.push(asset);
 				}
@@ -116,40 +110,41 @@ export class HTMLPlugin {
 				"utf8"
 			);
 
-			const scripts = entryAssets.map(item => {
-				let initContent = "";
-				let entryItem = entry[item.name] as string;
-				if (entry[item.name]) {
+			const routesMap = await exportPathMap();
+
+			console.log(routesMap);
+			
+			Object.keys(routesMap).forEach(k => {
+				const routeItem = routesMap[k];
+				const entryItem = entry[routeItem.page] as string;
+				if (entryItem) {
 					const Component = require(`${entryItem}/index.tsx`).default;
-					initContent = ReactDOMServer.renderToString(React.createElement(Component));
-				}
+					const ins = React.createElement(Component, routeItem.query);
+					const initContent = ReactDOMServer.renderToString(ins);
 
-				let htmlContent = ejs.render(templateContent, {
-					title: this.options.title,
-					styles: shareStyles,
-					scripts: shareScripts.concat(item.content),
-					manifestContent,
-					initContent
-				});
-
-				return {
-					name: item.name,
-					content: this.options.isProd
+					const htmlContent = ejs.render(templateContent, {
+						title: this.options.title,
+						styles: shareStyles,
+						scripts: shareScripts.concat(
+							entryAssetMap[routeItem.page]
+						),
+						manifestContent,
+						initContent
+					});
+					const content = this.options.isProd
 						? minify(htmlContent, {
 								removeAttributeQuotes: true,
 								removeComments: true,
 								collapseWhitespace: true
 							})
-						: htmlContent
-				} as EntryAsset;
+						: htmlContent;
+					compilation.assets[`${k}.html`] = {
+						source: () => content,
+						size: () => content.length
+					};
+				}
 			});
 
-			scripts.forEach(item => {
-				compilation.assets[`${item.name}.html`] = {
-					source: () => item.content,
-					size: () => item.content.length
-				};
-			});
 			return cb();
 		});
 	}
