@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const utils = require("../dist/utils");
 
+
 const yargs = require("yargs").option("config", {
 	alias: "c",
 	describe: "Path to the config file",
