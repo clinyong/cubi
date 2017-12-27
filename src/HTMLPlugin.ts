@@ -112,8 +112,6 @@ export class HTMLPlugin {
 
 			const routesMap = await exportPathMap();
 
-			console.log(routesMap);
-			
 			Object.keys(routesMap).forEach(k => {
 				const routeItem = routesMap[k];
 				const entryItem = entry[routeItem.page] as string;
@@ -121,6 +119,7 @@ export class HTMLPlugin {
 					const Component = require(`${entryItem}/index.tsx`).default;
 					const ins = React.createElement(Component, routeItem.query);
 					const initContent = ReactDOMServer.renderToString(ins);
+					const initProps = JSON.stringify(routeItem.query);
 
 					const htmlContent = ejs.render(templateContent, {
 						title: this.options.title,
@@ -129,7 +128,8 @@ export class HTMLPlugin {
 							entryAssetMap[routeItem.page]
 						),
 						manifestContent,
-						initContent
+						initContent,
+						initProps
 					});
 					const content = this.options.isProd
 						? minify(htmlContent, {
