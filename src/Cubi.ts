@@ -1,9 +1,10 @@
-import { genProdConfig, Config, genDevConfig } from "./webpackConfig";
+import { genProdConfig, genDevConfig } from "./webpackConfig";
 import * as webpack from "webpack";
 import * as ora from "ora";
 import chalk from "chalk";
 import { alertSuccess } from "./utils";
 import { startServer } from "./startServer";
+import { Config } from "./config";
 
 export function validateConfig(config: Config) {
 	return config;

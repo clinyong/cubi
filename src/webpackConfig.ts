@@ -5,18 +5,9 @@ import * as path from "path";
 import DllLinkPlugin = require("dll-link-webpack-plugin");
 import { HTMLPlugin } from "./HTMLPlugin";
 import { localIP } from "./utils";
-import { DevServerOption } from "./startServer";
+import { Config } from "./config";
 
 const MODULE_PATH = path.resolve(__dirname, "../node_modules");
-
-export interface Config {
-	rootPath: string;
-	entry: { [name: string]: string };
-	dllEntry: { [name: string]: string };
-	outputPath: string;
-	devPort: number;
-	devServer: DevServerOption;
-}
 
 function genDllConfig(options: Config, isProd: boolean): any {
 	const env = isProd ? "production" : "development";
@@ -125,11 +116,12 @@ export function genConfig(config: Config, isProd: boolean) {
 		new HTMLPlugin({
 			entry: config.entry,
 			dllEntry: config.dllEntry,
-			isProd
+			isProd,
+			exportPathMap: config.exportPathMap
 		})
 	);
 	webpackConfig.plugins = plugins;
-	
+
 	return webpackConfig;
 }
 
