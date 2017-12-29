@@ -1,4 +1,5 @@
 import * as webpack from "webpack";
+import { ServerStyleSheet } from 'styled-components'
 import * as fse from "fs-extra";
 import * as path from "path";
 import * as React from "react";
@@ -12,11 +13,12 @@ import { Route } from "./config";
 const MODULE_PATH = path.resolve(__dirname, "../node_modules");
 
 babelRegister({
-	presets: [
-		"@babel/preset-env",
-		"@babel/preset-react",
-		"@babel/preset-typescript"
-	].map(item => path.join(MODULE_PATH, item)),
+	plugins: ["@babel/plugin-transform-modules-commonjs"].map(item =>
+		path.join(MODULE_PATH, item)
+	),
+	presets: ["@babel/preset-react", "@babel/preset-typescript"].map(item =>
+		path.join(MODULE_PATH, item)
+	),
 	extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
 });
 
@@ -101,10 +103,6 @@ export class HTMLPlugin {
 
 			const shareScripts = shareAssets.concat(dllAssets);
 
-			const shareStyles = assets
-				.filter(asset => asset.name.includes(".css"))
-				.map(asset => asset.name);
-
 			const templateContent = await fse.readFile(
 				path.resolve(__dirname, "../config/template.html"),
 				"utf8"
@@ -116,20 +114,22 @@ export class HTMLPlugin {
 				const routeItem = routesMap[k];
 				const entryItem = entry[routeItem.page] as string;
 				if (entryItem) {
-					const Component = require(`${entryItem}/index.tsx`).default;
+					const sheet = new ServerStyleSheet();
+					const Component = require(`${entryItem}.tsx`).default;
 					const ins = React.createElement(Component, routeItem.query);
-					const initContent = ReactDOMServer.renderToString(ins);
+					const initContent = ReactDOMServer.renderToString(sheet.collectStyles(ins));
+					const initStyles = sheet.getStyleTags();
 					const initProps = JSON.stringify(routeItem.query);
 
 					const htmlContent = ejs.render(templateContent, {
 						title: this.options.title,
-						styles: shareStyles,
 						scripts: shareScripts.concat(
 							entryAssetMap[routeItem.page]
 						),
 						manifestContent,
 						initContent,
-						initProps
+						initProps,
+						initStyles
 					});
 					const content = this.options.isProd
 						? minify(htmlContent, {
