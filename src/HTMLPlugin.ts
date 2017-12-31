@@ -9,17 +9,11 @@ import { DEFAULT_EXTENSIONS } from "@babel/core";
 import * as babelRegister from "@babel/register";
 import { minify } from "html-minifier";
 import { Route } from "./config";
-import { findEntryPath } from "./utils";
-
-const MODULE_PATH = path.resolve(__dirname, "../node_modules");
+import { findEntryPath, resolveLocalModulePath } from "./utils";
 
 babelRegister({
-	plugins: ["@babel/plugin-transform-modules-commonjs"].map(item =>
-		path.join(MODULE_PATH, item)
-	),
-	presets: ["@babel/preset-react", "@babel/preset-typescript"].map(item =>
-		path.join(MODULE_PATH, item)
-	),
+	plugins: ["@babel/plugin-transform-modules-commonjs"].map(resolveLocalModulePath),
+	presets: ["@babel/preset-react", "@babel/preset-typescript"].map(resolveLocalModulePath),
 	extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
 });
 
@@ -62,7 +56,7 @@ export class HTMLPlugin {
 		this.options = Object.assign<Partial<HTMLOptions>, HTMLOptions>(
 			{
 				template: path.resolve(__dirname, "../config/index.html"),
-				title: "ezbuy"
+				title: ""
 			},
 			options
 		);

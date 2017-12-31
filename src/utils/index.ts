@@ -4,6 +4,8 @@ import * as fs from "fs";
 import * as os from "os";
 import * as notifier from "node-notifier";
 
+export const MODULE_PATH = path.resolve(__dirname, "../../node_modules");
+
 export const printError = msg => {
 	console.log();
 	console.log(chalk.red(msg));
@@ -76,4 +78,8 @@ export function findEntryPath(filePath: string): string {
 	});
 
 	return ext ? filePath + ext : "";
+}
+
+export function resolveLocalModulePath(name) {
+	return path.join(MODULE_PATH, name);
 }
