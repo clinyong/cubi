@@ -1,5 +1,5 @@
 import * as webpack from "webpack";
-import { ServerStyleSheet } from 'styled-components'
+import { ServerStyleSheet } from "styled-components";
 import * as fse from "fs-extra";
 import * as path from "path";
 import * as React from "react";
@@ -9,6 +9,7 @@ import { DEFAULT_EXTENSIONS } from "@babel/core";
 import * as babelRegister from "@babel/register";
 import { minify } from "html-minifier";
 import { Route } from "./config";
+import { findEntryPath } from "./utils";
 
 const MODULE_PATH = path.resolve(__dirname, "../node_modules");
 
@@ -114,34 +115,42 @@ export class HTMLPlugin {
 				const routeItem = routesMap[k];
 				const entryItem = entry[routeItem.page] as string;
 				if (entryItem) {
-					const sheet = new ServerStyleSheet();
-					const Component = require(`${entryItem}.tsx`).default;
-					const ins = React.createElement(Component, routeItem.query);
-					const initContent = ReactDOMServer.renderToString(sheet.collectStyles(ins));
-					const initStyles = sheet.getStyleTags();
-					const initProps = JSON.stringify(routeItem.query);
+					const entryPath = findEntryPath(entryItem);
+					if (entryPath) {
+						const sheet = new ServerStyleSheet();
+						const Component = require(entryPath).default;
+						const ins = React.createElement(
+							Component,
+							routeItem.query
+						);
+						const initContent = ReactDOMServer.renderToString(
+							sheet.collectStyles(ins)
+						);
+						const initStyles = sheet.getStyleTags();
+						const initProps = JSON.stringify(routeItem.query);
 
-					const htmlContent = ejs.render(templateContent, {
-						title: this.options.title,
-						scripts: shareScripts.concat(
-							entryAssetMap[routeItem.page]
-						),
-						manifestContent,
-						initContent,
-						initProps,
-						initStyles
-					});
-					const content = this.options.isProd
-						? minify(htmlContent, {
-								removeAttributeQuotes: true,
-								removeComments: true,
-								collapseWhitespace: true
-							})
-						: htmlContent;
-					compilation.assets[`${k}.html`] = {
-						source: () => content,
-						size: () => content.length
-					};
+						const htmlContent = ejs.render(templateContent, {
+							title: this.options.title,
+							scripts: shareScripts.concat(
+								entryAssetMap[routeItem.page]
+							),
+							manifestContent,
+							initContent,
+							initProps,
+							initStyles
+						});
+						const content = this.options.isProd
+							? minify(htmlContent, {
+									removeAttributeQuotes: true,
+									removeComments: true,
+									collapseWhitespace: true
+								})
+							: htmlContent;
+						compilation.assets[`${k}.html`] = {
+							source: () => content,
+							size: () => content.length
+						};
+					}
 				}
 			});
 

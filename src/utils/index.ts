@@ -1,4 +1,6 @@
 import chalk from "chalk";
+import * as path from "path";
+import * as fs from "fs";
 import * as os from "os";
 import * as notifier from "node-notifier";
 
@@ -61,4 +63,17 @@ export function alertSuccess(message: string) {
 		title: "ezpack",
 		message
 	});
+}
+
+export function findEntryPath(filePath: string): string {
+	if (path.extname(filePath)) {
+		return filePath;
+	}
+
+	const ext = [".tsx", ".jsx", "/index.tsx", "/index.jsx"].find(name => {
+		const p = filePath + name;
+		return fs.existsSync(p);
+	});
+
+	return ext ? filePath + ext : "";
 }
