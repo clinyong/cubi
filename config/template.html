@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
-    <% styles.forEach(function(href){ %>
-    <link href=/<%=href %> rel=stylesheet>
-    <% }) %>
+    <%- initStyles %>
 </head>
 
 <body>
