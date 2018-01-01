@@ -7,7 +7,6 @@ import * as ReactDOMServer from "react-dom/server";
 import * as ejs from "ejs";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
 import * as babelRegister from "@babel/register";
-import { minify } from "html-minifier";
 import { Route } from "./config";
 import { findEntryPath, resolveLocalModulePath } from "./utils";
 
@@ -123,7 +122,7 @@ export class HTMLPlugin {
 						const initStyles = sheet.getStyleTags();
 						const initProps = JSON.stringify(routeItem.query);
 
-						const htmlContent = ejs.render(templateContent, {
+						const content = ejs.render(templateContent, {
 							title: this.options.title,
 							scripts: shareScripts.concat(
 								entryAssetMap[routeItem.page]
@@ -133,13 +132,6 @@ export class HTMLPlugin {
 							initProps,
 							initStyles
 						});
-						const content = this.options.isProd
-							? minify(htmlContent, {
-									removeAttributeQuotes: true,
-									removeComments: true,
-									collapseWhitespace: true
-								})
-							: htmlContent;
 						compilation.assets[`${k}.html`] = {
 							source: () => content,
 							size: () => content.length
