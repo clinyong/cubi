@@ -9,7 +9,8 @@
 	"typings": "./dist/Cubi.d.ts",
 	"scripts": {
 		"start": "tsc -w",
-		"build": "tsc"
+		"build": "tsc",
+		"publishPatch": "npm run build && npm version patch && npm publish"
 	},
 	"keywords": [],
 	"author": "",
