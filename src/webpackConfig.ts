@@ -4,7 +4,7 @@ import * as merge from "webpack-merge";
 import * as path from "path";
 import DllLinkPlugin = require("dll-link-webpack-plugin");
 import { HTMLPlugin } from "./HTMLPlugin";
-import { localIP, resolveLocalModulePath, MODULE_PATH } from "./utils";
+import { localIP, MODULE_PATH } from "./utils";
 import { Config } from "./config";
 
 function genDllConfig(options: Config, isProd: boolean): any {
@@ -54,7 +54,7 @@ export function genConfig(config: Config, isProd: boolean) {
 		"@babel/preset-env",
 		"@babel/preset-react",
 		"@babel/preset-typescript"
-	].map(resolveLocalModulePath);
+	];
 	const webpackConfig: webpack.Configuration = {
 		entry: config.entry,
 		output: {

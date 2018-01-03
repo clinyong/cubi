@@ -8,11 +8,11 @@ import * as ejs from "ejs";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
 import * as babelRegister from "@babel/register";
 import { Route } from "./config";
-import { findEntryPath, resolveLocalModulePath } from "./utils";
+import { findEntryPath } from "./utils";
 
 babelRegister({
-	plugins: ["@babel/plugin-transform-modules-commonjs"].map(resolveLocalModulePath),
-	presets: ["@babel/preset-react", "@babel/preset-typescript"].map(resolveLocalModulePath),
+	plugins: ["@babel/plugin-transform-modules-commonjs"],
+	presets: ["@babel/preset-react", "@babel/preset-typescript"],
 	extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
 });
 
