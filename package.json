@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": "",
 	"bin": {
-		"ezpack": "./bin/ezpack.js"
+		"cubi": "./bin/cubi.js"
 	},
 	"main": "./dist/Cubi.js",
 	"typings": "./dist/Cubi.d.ts",
