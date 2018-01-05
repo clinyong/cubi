@@ -88,12 +88,10 @@ export function genConfig(config: Config, isProd: boolean) {
 						{
 							loader: "babel-loader",
 							options: {
-								plugins: [
-									path.resolve(__dirname, "./ReactHydrate")
-								],
 								presets: babelPresets
 							}
-						}
+						},
+						path.resolve(__dirname, "./ReactHydrate")
 					]
 				}
 			]
