@@ -91,7 +91,12 @@ export function genConfig(config: Config, isProd: boolean) {
 								presets: babelPresets
 							}
 						},
-						path.resolve(__dirname, "./ReactHydrate")
+						{
+							loader: path.resolve(__dirname, "./ReactHydrate"),
+							options:  {
+								isProd
+							},
+						}
 					]
 				}
 			]

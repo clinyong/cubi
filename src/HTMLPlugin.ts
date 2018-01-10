@@ -63,7 +63,7 @@ export class HTMLPlugin {
 
 	apply(compiler) {
 		compiler.plugin("emit", async (compilation, cb) => {
-			const { entry, exportPathMap } = this.options;
+			const { entry, exportPathMap, isProd } = this.options;
 			const { assets, chunks } = compilation.getStats().toJson();
 
 			const allAssets = chunks
@@ -109,18 +109,24 @@ export class HTMLPlugin {
 				const entryItem = entry[routeItem.page] as string;
 				if (entryItem) {
 					const entryPath = findEntryPath(entryItem);
+					const props = routeItem.query;
+
 					if (entryPath) {
-						const sheet = new ServerStyleSheet();
-						const Component = require(entryPath).default;
-						const ins = React.createElement(
-							Component,
-							routeItem.query
-						);
-						const initContent = ReactDOMServer.renderToString(
-							sheet.collectStyles(ins)
-						);
-						const initStyles = sheet.getStyleTags();
-						const initProps = JSON.stringify(routeItem.query);
+						let initContent = "";
+						let initStyles = "";
+						let initProps = props ? JSON.stringify(props) : "";
+						if (isProd) {
+							const sheet = new ServerStyleSheet();
+							const Component = require(entryPath).default;
+							const ins = React.createElement(
+								Component,
+								props
+							);
+							initContent = ReactDOMServer.renderToString(
+								sheet.collectStyles(ins)
+							);
+							initStyles = sheet.getStyleTags();
+						}
 
 						const content = ejs.render(templateContent, {
 							title: this.options.title,

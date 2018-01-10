@@ -2,6 +2,7 @@ import * as t from "@babel/types";
 import * as babylon from "babylon";
 import traverse from "@babel/traverse";
 import generator from "@babel/generator";
+import * as loaderUtils from "loader-utils";
 
 function createJSX(name) {
 	return t.jSXElement(
@@ -30,6 +31,9 @@ const parseOption = {
 
 // A babel plugin, add hydrate method to entry file
 export = function ReactHydrate(source) {
+	const loaderOptions = loaderUtils.getOptions(this) || {};
+	const isProd = loaderOptions.isProd;
+
 	let componentName = "";
 	const ast = babylon.parse(source, parseOption);
 	traverse(ast, {
@@ -54,10 +58,16 @@ export = function ReactHydrate(source) {
 						t.stringLiteral("react-dom")
 					)
 				);
+
+				let funcName = "render";
+				if (isProd) {
+					funcName = "hydrate"
+				}
+
 				path.pushContainer(
 					"body",
 					t.ExpressionStatement(
-						createFunction("ReactDOM.hydrate", [
+						createFunction(`ReactDOM.${funcName}`, [
 							createJSX(componentName),
 							createFunction("document.getElementById", [
 								t.StringLiteral("app")
