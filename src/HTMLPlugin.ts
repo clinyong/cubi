@@ -115,24 +115,21 @@ export class HTMLPlugin {
 						let initContent = "";
 						let initStyles = "";
 						let initProps = props ? JSON.stringify(props) : "";
+						let entryList = [routeItem.page + ".js"];
 						if (isProd) {
 							const sheet = new ServerStyleSheet();
 							const Component = require(entryPath).default;
-							const ins = React.createElement(
-								Component,
-								props
-							);
+							const ins = React.createElement(Component, props);
 							initContent = ReactDOMServer.renderToString(
 								sheet.collectStyles(ins)
 							);
 							initStyles = sheet.getStyleTags();
+							entryList = entryAssetMap[routeItem.page];
 						}
 
 						const content = ejs.render(templateContent, {
 							title: this.options.title,
-							scripts: shareScripts.concat(
-								entryAssetMap[routeItem.page]
-							),
+							scripts: shareScripts.concat(entryList),
 							manifestContent,
 							initContent,
 							initProps,
