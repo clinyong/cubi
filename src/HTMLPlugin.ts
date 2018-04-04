@@ -114,7 +114,7 @@ export class HTMLPlugin {
 					if (entryPath) {
 						let initContent = "";
 						let initStyles = "";
-						let initProps = props ? JSON.stringify(props) : "";
+						let initProps = props ? JSON.stringify(props) : "{}";
 						let entryList = [routeItem.page + ".js"];
 						if (isProd) {
 							const sheet = new ServerStyleSheet();

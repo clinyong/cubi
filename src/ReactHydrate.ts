@@ -4,15 +4,6 @@ import traverse from "@babel/traverse";
 import generator from "@babel/generator";
 import * as loaderUtils from "loader-utils";
 
-function createJSX(name) {
-	return t.jSXElement(
-		t.jSXOpeningElement(t.JSXIdentifier(name), [], true),
-		null,
-		[],
-		true
-	);
-}
-
 function createFunction(name, args) {
 	const nameList = name.split(".");
 	return t.CallExpression(
@@ -61,14 +52,17 @@ export = function ReactHydrate(source) {
 
 				let funcName = "render";
 				if (isProd) {
-					funcName = "hydrate"
+					funcName = "hydrate";
 				}
 
 				path.pushContainer(
 					"body",
 					t.ExpressionStatement(
 						createFunction(`ReactDOM.${funcName}`, [
-							createJSX(componentName),
+							createFunction("React.createElement", [
+								t.Identifier(componentName),
+								t.Identifier("INIT_PROPS")
+							]),
 							createFunction("document.getElementById", [
 								t.StringLiteral("app")
 							])
