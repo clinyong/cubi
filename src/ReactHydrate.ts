@@ -6,10 +6,10 @@ import * as loaderUtils from "loader-utils";
 
 function createFunction(name, args) {
 	const nameList = name.split(".");
-	return t.CallExpression(
-		t.MemberExpression(
-			t.Identifier(nameList[0]),
-			t.Identifier(nameList[1])
+	return t.callExpression(
+		t.memberExpression(
+			t.identifier(nameList[0]),
+			t.identifier(nameList[1])
 		),
 		args
 	);
@@ -44,8 +44,8 @@ export = function ReactHydrate(source) {
 			exit(path) {
 				path.unshiftContainer(
 					"body",
-					t.ImportDeclaration(
-						[t.ImportDefaultSpecifier(t.Identifier("ReactDOM"))],
+					t.importDeclaration(
+						[t.importDefaultSpecifier(t.identifier("ReactDOM"))],
 						t.stringLiteral("react-dom")
 					)
 				);
@@ -57,14 +57,14 @@ export = function ReactHydrate(source) {
 
 				path.pushContainer(
 					"body",
-					t.ExpressionStatement(
+					t.expressionStatement(
 						createFunction(`ReactDOM.${funcName}`, [
 							createFunction("React.createElement", [
-								t.Identifier(componentName),
-								t.Identifier("INIT_PROPS")
+								t.identifier(componentName),
+								t.identifier("INIT_PROPS")
 							]),
 							createFunction("document.getElementById", [
-								t.StringLiteral("app")
+								t.stringLiteral("app")
 							])
 						])
 					)
