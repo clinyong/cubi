@@ -1,6 +1,6 @@
 {
 	"name": "cubi",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"description": "",
 	"bin": {
 		"cubi": "./bin/cubi.js"
