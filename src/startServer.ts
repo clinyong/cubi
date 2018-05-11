@@ -36,7 +36,7 @@ export function startServer(
 ) {
 	const compiler: any = webpack(config);
 	const devMiddleware = webpackDevMiddleware(compiler, {
-		logLevel: "silent",
+		logLevel: "error",
 		headers: {
 			"Access-Control-Allow-Origin": "*"
 		}
