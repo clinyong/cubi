@@ -1,5 +1,4 @@
 import * as webpack from "webpack";
-import * as FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import * as merge from "webpack-merge";
 import * as path from "path";
 import DllLinkPlugin = require("dll-link-webpack-plugin");
@@ -21,6 +20,7 @@ function genDllConfig(options: Config, isProd: boolean): any {
 			path: options.outputPath,
 			library
 		},
+		mode: env,
 		plugins: [
 			new webpack.DllPlugin({
 				path: "[name]-manifest.json",
@@ -30,19 +30,7 @@ function genDllConfig(options: Config, isProd: boolean): any {
 			new webpack.DefinePlugin({
 				"process.env.NODE_ENV": JSON.stringify(env)
 			})
-		].concat(
-			isProd
-				? [
-						new webpack.optimize.UglifyJsPlugin({
-							compress: {
-								warnings: false
-							}
-						}),
-						new webpack.HashedModuleIdsPlugin(),
-						new webpack.optimize.ModuleConcatenationPlugin()
-					]
-				: []
-		)
+		]
 	};
 }
 
@@ -67,6 +55,7 @@ export function genConfig(config: Config, isProd: boolean) {
 		resolveLoader: {
 			modules: ["node_modules", MODULE_PATH]
 		},
+		mode: isProd ? "production" : "development",
 		module: {
 			rules: [
 				{
@@ -141,7 +130,6 @@ export function genDevConfig(config: Config) {
 			}),
 			new webpack.NamedModulesPlugin(),
 			new webpack.HotModuleReplacementPlugin(),
-			new FriendlyErrorsPlugin()
 		]
 	});
 }
@@ -151,21 +139,7 @@ export function genProdConfig(config: Config) {
 	const plugins = [
 		new webpack.DefinePlugin({
 			"process.env.NODE_ENV": JSON.stringify("production")
-		}),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		}),
-		new webpack.HashedModuleIdsPlugin(),
-		new webpack.optimize.CommonsChunkPlugin({
-			name: "common",
-			minChunks: 2
-		}),
-		new webpack.optimize.CommonsChunkPlugin({
-			name: "manifest"
-		}),
-		new webpack.optimize.ModuleConcatenationPlugin()
+		})
 	];
 	const prodConfig: webpack.Configuration = {
 		output: {
