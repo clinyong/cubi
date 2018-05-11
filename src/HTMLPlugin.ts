@@ -91,11 +91,11 @@ export class HTMLPlugin {
 			}
 
 			// get dll entry
-			const dllAssets = assets
+			const dllAssets: string[] = assets
 				.filter(item => item.name.includes(".dll.js"))
 				.map(asset => asset.name);
 
-			const shareScripts = shareAssets.concat(dllAssets);
+			const shareScripts = shareAssets.concat(dllAssets.filter(name => !name.includes("__")));
 
 			const templateContent = await fse.readFile(
 				path.resolve(__dirname, "../config/template.html"),
@@ -125,6 +125,11 @@ export class HTMLPlugin {
 							);
 							initStyles = sheet.getStyleTags();
 							entryList = entryAssetMap[routeItem.page];
+						}
+
+						const pageDLL = dllAssets.find(name => name.includes(`__${routeItem.page}`));
+						if (pageDLL) {
+							entryList.unshift(pageDLL);
 						}
 
 						const content = ejs.render(templateContent, {

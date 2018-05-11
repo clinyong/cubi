@@ -1,6 +1,7 @@
 import * as webpack from "webpack";
 import * as merge from "webpack-merge";
 import * as path from "path";
+import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import DllLinkPlugin = require("dll-link-webpack-plugin");
 import { HTMLPlugin } from "./HTMLPlugin";
 import { localIP, MODULE_PATH } from "./utils";
@@ -13,6 +14,7 @@ function genDllConfig(options: Config, isProd: boolean): any {
 		: "[name].dll.js";
 
 	const library = "[name]_lib";
+
 	return {
 		entry: options.dllEntry,
 		output: {
@@ -21,6 +23,14 @@ function genDllConfig(options: Config, isProd: boolean): any {
 			library
 		},
 		mode: env,
+		module: {
+			rules: [
+				{
+					test: /\.css/,
+					use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"]
+				}
+			]
+		},
 		plugins: [
 			new webpack.DllPlugin({
 				path: "[name]-manifest.json",
@@ -30,7 +40,15 @@ function genDllConfig(options: Config, isProd: boolean): any {
 			new webpack.DefinePlugin({
 				"process.env.NODE_ENV": JSON.stringify(env)
 			})
-		]
+		].concat(
+			isProd ? [
+				new MiniCssExtractPlugin({
+					// Options similar to the same options in webpackOptions.output
+					// both options are optional
+					filename: "css/[name].[contenthash:8].css",
+				  })
+			] : []
+		)
 	};
 }
 
@@ -85,8 +103,12 @@ export function genConfig(config: Config, isProd: boolean) {
 							options:  {
 								isProd
 							},
-						}
+						},
 					]
+				},
+				{
+					test: /\.css$/,
+					use: ["style-loader", "css-loader"]
 				}
 			]
 		}
