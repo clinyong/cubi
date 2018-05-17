@@ -10,7 +10,6 @@
         "sourceMap": true,
         "declaration": true,
         "outDir": "dist",
-        "noEmitOnError": true,
         "moduleResolution": "node",
         "skipLibCheck": true,
         "noUnusedLocals": true,
