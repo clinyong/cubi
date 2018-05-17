@@ -11,7 +11,10 @@ import { Route } from "./config";
 import { findEntryPath } from "./utils";
 
 babelRegister({
-  plugins: ["@babel/plugin-transform-modules-commonjs"],
+  plugins: [
+    "@babel/plugin-transform-modules-commonjs",
+    path.resolve(__dirname, "./RemoveCSSPlugin")
+  ],
   presets: ["@babel/preset-react", "@babel/preset-typescript"],
   extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
 });
@@ -92,7 +95,9 @@ export class HTMLPlugin {
 
       // get dll entry
       const dllAssets: string[] = assets
-        .filter(item => item.name.includes(".dll.js"))
+        .filter(
+          item => item.name.endsWith(".dll.js") || item.name.includes("__")
+        )
         .map(asset => asset.name);
 
       const shareScripts = shareAssets.concat(
@@ -126,19 +131,30 @@ export class HTMLPlugin {
                 sheet.collectStyles(ins)
               );
               initStyles = sheet.getStyleTags();
-              entryList = entryAssetMap[routeItem.page];
+              entryList = [].concat(entryAssetMap[routeItem.page]);
             }
 
-            const pageDLL = dllAssets.find(name =>
+            const pageDLL = dllAssets.filter(name =>
               name.includes(`__${routeItem.page}`)
             );
-            if (pageDLL) {
-              entryList.unshift(pageDLL);
+
+            const cssFiles: string[] = [];
+            if (pageDLL.length > 0) {
+              const jsDLL = pageDLL.find(name => name.endsWith(".js"));
+              if (jsDLL) {
+                entryList.unshift(jsDLL);
+              }
+
+              const cssDLL = pageDLL.find(name => name.endsWith(".css"));
+              if (cssDLL) {
+                cssFiles.push(cssDLL);
+              }
             }
 
             const content = ejs.render(templateContent, {
               title: this.options.title,
               scripts: shareScripts.concat(entryList),
+              cssFiles,
               manifestContent,
               initContent,
               initProps,
