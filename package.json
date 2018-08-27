@@ -10,7 +10,8 @@
 	"scripts": {
 		"start": "tsc -w",
 		"build": "tsc",
-		"publishPatch": "npm run build && npm version patch && npm publish"
+		"publishPatch": "npm run build && npm version patch && npm publish",
+		"publishMinor": "npm run build && npm version minor && npm publish"
 	},
 	"keywords": [],
 	"author": "",
