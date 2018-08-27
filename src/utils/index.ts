@@ -62,7 +62,7 @@ export const localIP = getLocalIP();
 
 export function alertSuccess(message: string) {
 	notifier.notify({
-		title: "ezpack",
+		title: "cubi",
 		message
 	});
 }

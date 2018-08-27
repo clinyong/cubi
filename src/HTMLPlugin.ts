@@ -64,8 +64,8 @@ export class HTMLPlugin {
     );
   }
 
-  apply(compiler) {
-    compiler.plugin("emit", async (compilation, cb) => {
+  apply(compiler: webpack.Compiler) {
+    compiler.hooks.emit.tapAsync("HTMLPlugin", async (compilation, cb) => {
       const { entry, exportPathMap, isProd } = this.options;
       const { assets, chunks } = compilation.getStats().toJson();
 
