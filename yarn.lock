@@ -796,6 +796,10 @@ babylon@7.0.0-beta.46:
   version "7.0.0-beta.46"
   resolved "http://registry.npm.taobao.org/babylon/download/babylon-7.0.0-beta.46.tgz#b6ddaba81bbb130313932757ff9c195d527088b6"
 
+babylon@^6.18.0:
+  version "6.18.0"
+  resolved "http://bnpm.corp.yiran.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
+
 balanced-match@^0.4.2:
   version "0.4.2"
   resolved "http://registry.npm.taobao.org/balanced-match/download/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
