@@ -2,7 +2,7 @@ import * as webpack from "webpack";
 import * as webpackDevMiddleware from "webpack-dev-middleware";
 import * as express from "express";
 import * as serveStatic from "serve-static";
-import { localIP } from "./utils";
+import { getLocalIP } from "./utils";
 
 const host = "0.0.0.0";
 
@@ -75,7 +75,7 @@ export function startServer(
 
 	app.locals.env = process.env.NODE_ENV;
 	devMiddleware.waitUntilValid(() => {
-		console.log(`> Listening at http://${localIP}:${port}`);
+		console.log(`> Listening at http://${getLocalIP()}:${port}`);
 	});
 	console.log("> Starting dev server...");
 	app.listen(port, host);

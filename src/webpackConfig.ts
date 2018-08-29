@@ -3,7 +3,7 @@ import * as merge from "webpack-merge";
 import * as path from "path";
 import DllLinkPlugin = require("dll-link-webpack-plugin");
 import { HTMLPlugin } from "./HTMLPlugin";
-import { localIP, MODULE_PATH } from "./utils";
+import { getLocalIP, MODULE_PATH } from "./utils";
 import { Config } from "./config";
 import { ServiceWorkerPlugin } from "./ServiceWorkerPlugin";
 
@@ -131,7 +131,7 @@ export function genDevConfig(config: Config) {
   const baseConfig = genConfig(config, false);
   return merge(baseConfig, {
     output: {
-      publicPath: `http://${localIP}:${config.devPort}/`,
+      publicPath: `http://${getLocalIP()}:${config.devPort}/`,
       filename: "[name].js",
       chunkFilename: "[name].chunk.js"
     },

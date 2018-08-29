@@ -21,7 +21,12 @@ export const printWarn = msg => {
 	console.log(chalk.yellow(msg));
 };
 
-function getLocalIP() {
+let localIP = "";
+export function getLocalIP() {
+	if (localIP) {
+		return localIP;
+	}
+
 	const ifaces = os.networkInterfaces();
 	const ipList: string[] = [];
 
@@ -51,14 +56,15 @@ function getLocalIP() {
 	}
 
 	if (ip) {
+		localIP = ip;
 		return ip;
 	} else {
+		localIP = "127.0.0.1";
 		printWarn("Can not get your local ip, using 127.0.0.1");
-		return "127.0.0.1";
 	}
-}
 
-export const localIP = getLocalIP();
+	return localIP;
+}
 
 export function alertSuccess(message: string) {
 	notifier.notify({
