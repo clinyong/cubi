@@ -158,7 +158,8 @@ export class HTMLPlugin {
               manifestContent,
               initContent,
               initProps,
-              initStyles
+              initStyles,
+              isProd
             });
             compilation.assets[`${k}.html`] = {
               source: () => content,
