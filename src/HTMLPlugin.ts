@@ -12,10 +12,13 @@ import { findEntryPath } from "./utils";
 
 babelRegister({
   plugins: [
-    "@babel/plugin-transform-modules-commonjs",
+    require.resolve("@babel/plugin-transform-modules-commonjs"),
     path.resolve(__dirname, "./RemoveCSSPlugin")
   ],
-  presets: ["@babel/preset-react", "@babel/preset-typescript"],
+  presets: [
+    require.resolve("@babel/preset-react"),
+    require.resolve("@babel/preset-typescript")
+  ],
   extensions: [...DEFAULT_EXTENSIONS, ".tsx"]
 });
 
@@ -104,11 +107,7 @@ export class HTMLPlugin {
         dllAssets.filter(name => !name.includes("__"))
       );
 
-      const templateContent = await fse.readFile(
-        path.resolve(__dirname, "../config/template.html"),
-        "utf8"
-      );
-
+      const templateContent = await fse.readFile(this.options.template, "utf8");
       const routesMap = await exportPathMap();
 
       Object.keys(routesMap).forEach(k => {
@@ -152,7 +151,7 @@ export class HTMLPlugin {
             }
 
             const content = ejs.render(templateContent, {
-              title: this.options.title,
+              title: routeItem.title,
               scripts: shareScripts.concat(entryList),
               cssFiles,
               manifestContent,

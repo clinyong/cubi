@@ -119,7 +119,8 @@ export function genConfig(config: Config, isProd: boolean) {
       entry: config.entry,
       dllEntry: config.dllEntry,
       isProd,
-      exportPathMap: config.exportPathMap
+      exportPathMap: config.exportPathMap,
+      template: config.htmlTemplate
     })
   );
   webpackConfig.plugins = plugins;
@@ -141,7 +142,7 @@ export function genDevConfig(config: Config) {
         "process.env.NODE_ENV": JSON.stringify("development")
       }),
       new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
+      new webpack.HotModuleReplacementPlugin()
     ]
   });
 }
