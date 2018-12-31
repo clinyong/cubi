@@ -3,6 +3,7 @@ import { DevServerOption } from "./startServer";
 export interface Route {
 	page: string;
 	query: any;
+	title: string;
 }
 
 export interface Config {
@@ -13,4 +14,5 @@ export interface Config {
 	devPort: number;
 	devServer: DevServerOption;
 	exportPathMap: () => Promise<{ [index: string]: Route }>;
+	htmlTemplate?: string;
 }
